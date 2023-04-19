@@ -17,7 +17,6 @@ input {
 }
 
 .suggestion-container {
-  height: 50vh;
   width: 80%;
   max-width: 600px;
   background-color: white;
