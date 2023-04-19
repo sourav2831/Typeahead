@@ -38,11 +38,22 @@ const fetchSuggestions = async (e) => {
   if (!value) {
     suggestions = [];
   } else {
-    const url = `${suggestionApi}?term=${e.target.value}`;
+    const url = `${suggestionApi}?term=${value}`;
     const response = await getApi(url);
-    suggestions = response.suggestions;
+    suggestions = response?.suggestions || [];
   }
   renderHtml();
 };
 
+const closeSuggestions = () => {
+  suggestions = [];
+  suggestionContainer.setAttribute("hidden", true);
+};
+
+const showSuggestions = () => {
+  suggestionContainer.removeAttribute("hidden");
+};
+
 input.addEventListener("input", debounce(fetchSuggestions));
+input.addEventListener("blur", closeSuggestions);
+input.addEventListener("focus", showSuggestions);
