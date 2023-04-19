@@ -5,6 +5,11 @@ const suggestionContainer = document.getElementById("suggestionContainer");
 const input = document.getElementById("input");
 let suggestions = [];
 
+const handleSuggestionClick = (event) => {
+  input.setAttribute("value", event.target.innerText);
+  input.value = event.target.innerText;
+};
+
 const renderHtml = () => {
   suggestions.map(({ value }, index) => {
     const suggestionDivId = `suggestion${index}`;
@@ -17,6 +22,7 @@ const renderHtml = () => {
       updateNode(suggestionDiv, suggestionDivId, "suggestion", value);
     }
   });
+  suggestionContainer.addEventListener("click", handleSuggestionClick);
   const suggestionContainerChildren = suggestionContainer.children;
   let i = suggestionContainerChildren.length - 1;
   while (i > suggestions.length - 1) {
@@ -45,7 +51,8 @@ const fetchSuggestions = async (e) => {
   renderHtml();
 };
 
-const closeSuggestions = () => {
+const closeSuggestions = (e) => {
+  if (e.target.id === "input") return;
   suggestions = [];
   suggestionContainer.setAttribute("hidden", true);
 };
@@ -55,5 +62,5 @@ const showSuggestions = () => {
 };
 
 input.addEventListener("input", debounce(fetchSuggestions));
-input.addEventListener("blur", closeSuggestions);
+window.addEventListener("click", closeSuggestions);
 input.addEventListener("focus", showSuggestions);
