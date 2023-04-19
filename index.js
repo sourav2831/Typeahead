@@ -1,5 +1,5 @@
 import { suggestionApi } from "./constants.js";
-import { getApi } from "./util.js";
+import { getApi, debounce } from "./util.js";
 
 const suggestionContainer = document.getElementById("suggestionContainer");
 const input = document.getElementById("input");
@@ -45,4 +45,4 @@ const fetchSuggestions = async (e) => {
   renderHtml();
 };
 
-input.addEventListener("input", fetchSuggestions);
+input.addEventListener("input", debounce(fetchSuggestions));
